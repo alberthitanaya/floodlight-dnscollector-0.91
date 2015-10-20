@@ -24,8 +24,7 @@ import net.floodlightcontroller.packet.Ethernet;
 import net.floodlightcontroller.packet.IPv4;
 import net.floodlightcontroller.packet.UDP;
 import net.floodlightcontroller.restserver.IRestApiService;
-
-
+import net.floodlightcontroller.util.MACAddress;
 import net.floodlightcontroller.core.FloodlightContext;
 import net.floodlightcontroller.core.IOFMessageListener;
 import net.floodlightcontroller.core.IOFSwitch;
@@ -118,7 +117,8 @@ public class DNSCollector implements IOFMessageListener, IFloodlightModule, IDNS
 						strBuilder.delete(strBuilder.length()-5, strBuilder.length());
 						Map<String,Object> hm = new HashMap<String, Object>();
 						hm.put("query", strBuilder.toString());
-						hm.put("mac", eth.getSourceMACAddress().toString());
+						MACAddress source = eth.getSourceMAC();
+						hm.put("mac", source.toString());
 						hm.put("switch", sw.getStringId());
 						hm.put("time", System.currentTimeMillis());
 						this.DNSqueries.add(hm);
